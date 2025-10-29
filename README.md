@@ -74,5 +74,5 @@ lib/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/<your-username>/flutter_rick_and_morty.git
+   git clone https://github.com/zelshenhab/flutter_rick_and_morty
    cd flutter_rick_and_morty
