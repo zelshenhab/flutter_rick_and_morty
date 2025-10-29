@@ -20,7 +20,6 @@ class Character extends Equatable {
   });
 
   factory Character.fromJson(Map<String, dynamic> json) {
-    // ✅ التعامل مع location سواء كانت Map أو String
     final dynamic locData = json['location'];
     String locName = '';
     if (locData is Map) {
@@ -50,7 +49,6 @@ class Character extends Equatable {
       'species': species,
       'gender': gender,
       'image': image,
-      // ✅ نخزن location كـ String بس علشان مايحصلش تضارب تاني
       'location': location,
     };
   }

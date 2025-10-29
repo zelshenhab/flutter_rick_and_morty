@@ -54,7 +54,6 @@ class _HomePageState extends State<HomePage> {
 
             return BlocBuilder<FavoritesBloc, FavoritesState>(
               builder: (context, favState) {
-                // ✅ نتحقق أن الحالة الحالية فيها favorites
                 List favorites = [];
                 if (favState is FavoritesLoaded) {
                   favorites = favState.favorites;
@@ -65,7 +64,6 @@ class _HomePageState extends State<HomePage> {
                   itemCount: characters.length + 1,
                   itemBuilder: (context, index) {
                     if (index == characters.length) {
-                      // ✅ عرض loader عند نهاية القائمة (للـ pagination)
                       return const Padding(
                         padding: EdgeInsets.all(16.0),
                         child: Center(child: CircularProgressIndicator()),
@@ -90,7 +88,6 @@ class _HomePageState extends State<HomePage> {
             );
           }
 
-          // لو الحالة مش متعرفة لأي سبب
           return const SizedBox.shrink();
         },
       ),

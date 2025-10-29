@@ -16,7 +16,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   void initState() {
     super.initState();
-    // نعمل إعادة تحميل للمفضلات كل مرة نفتح الصفحة
     context.read<FavoritesBloc>().add(LoadFavorites());
   }
 
