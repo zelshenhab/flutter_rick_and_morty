@@ -5,8 +5,20 @@ import 'bloc/favorites_event.dart';
 import 'bloc/favorites_state.dart';
 import 'widgets/favorite_card.dart';
 
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends StatefulWidget {
   const FavoritesPage({super.key});
+
+  @override
+  State<FavoritesPage> createState() => _FavoritesPageState();
+}
+
+class _FavoritesPageState extends State<FavoritesPage> {
+  @override
+  void initState() {
+    super.initState();
+    // نعمل إعادة تحميل للمفضلات كل مرة نفتح الصفحة
+    context.read<FavoritesBloc>().add(LoadFavorites());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +27,13 @@ class FavoritesPage extends StatelessWidget {
         title: const Text('Favorites'),
         actions: [
           PopupMenuButton<String>(
-            onSelected: (v) => context.read<FavoritesBloc>().add(SortFavorites(v)),
+            onSelected: (v) =>
+                context.read<FavoritesBloc>().add(SortFavorites(v)),
             itemBuilder: (context) => const [
               PopupMenuItem(value: 'name', child: Text('Sort by Name')),
               PopupMenuItem(value: 'status', child: Text('Sort by Status')),
             ],
-          )
+          ),
         ],
       ),
       body: BlocBuilder<FavoritesBloc, FavoritesState>(
@@ -28,10 +41,12 @@ class FavoritesPage extends StatelessWidget {
           if (state is FavoritesLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is FavoritesLoaded) {
-            if (state.favorites.isEmpty) {
+            final favorites = state.favorites;
+
+            if (favorites.isEmpty) {
               return const Center(child: Text('No favorites yet'));
             }
-            final favorites = state.favorites;
+
             return ListView.builder(
               itemCount: favorites.length,
               itemBuilder: (context, index) {
@@ -44,8 +59,9 @@ class FavoritesPage extends StatelessWidget {
                 );
               },
             );
+          } else {
+            return const Center(child: Text('No data'));
           }
-          return const SizedBox();
         },
       ),
     );

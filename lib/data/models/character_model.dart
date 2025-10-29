@@ -20,14 +20,25 @@ class Character extends Equatable {
   });
 
   factory Character.fromJson(Map<String, dynamic> json) {
+    // ✅ التعامل مع location سواء كانت Map أو String
+    final dynamic locData = json['location'];
+    String locName = '';
+    if (locData is Map) {
+      locName = locData['name'] ?? '';
+    } else if (locData is String) {
+      locName = locData;
+    }
+
     return Character(
-      id: json['id'],
-      name: json['name'],
-      status: json['status'],
-      species: json['species'],
-      gender: json['gender'],
-      image: json['image'],
-      location: json['location']['name'],
+      id: json['id'] is String
+          ? int.tryParse(json['id']) ?? 0
+          : json['id'] ?? 0,
+      name: json['name'] ?? '',
+      status: json['status'] ?? '',
+      species: json['species'] ?? '',
+      gender: json['gender'] ?? '',
+      image: json['image'] ?? '',
+      location: locName,
     );
   }
 
@@ -39,10 +50,19 @@ class Character extends Equatable {
       'species': species,
       'gender': gender,
       'image': image,
+      // ✅ نخزن location كـ String بس علشان مايحصلش تضارب تاني
       'location': location,
     };
   }
 
   @override
-  List<Object?> get props => [id, name, status, species, gender, image, location];
+  List<Object?> get props => [
+    id,
+    name,
+    status,
+    species,
+    gender,
+    image,
+    location,
+  ];
 }
